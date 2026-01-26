@@ -1,0 +1,15 @@
+# optional: root directory for your dataset
+path: D:\github lite\cv_projects\Identifying and locating flags from aerial photography\data\inserted_flags_in_background
+
+# relative paths for split folders
+train: images/train
+val:   images/val
+
+nc: 47
+
+names: ['albania', 'algeria', 'argentina', 'australia', 'austria', 'bahrain', 'belgium', 'brazil', 'bulgaria', 'canada',
+        'china', 'croatia', 'egypt', 'ethiopia', 'france', 'germany', 'greece', 'india', 'iran', 'iraq',
+        'italy', 'japan', 'jordan', 'korea', 'kuwait', 'lebanon', 'libya', 'mexico', 'morocco', 'new zealand',
+        'nigeria', 'oman', 'pakistan', 'portugal', 'qatar', 'romania', 'russian', 'saudi arabia', 'south africa',
+        'spain', 'sudan', 'sweden', 'switzerland', 'tunisia', 'turkey', 'ukraine', 'yemen']
+
