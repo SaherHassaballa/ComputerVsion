@@ -1,0 +1,145 @@
+Loading a Hugging Face Model (YOLOv8 Face Detection)
+
+This guide explains how to download, cache, and use a Hugging Face model
+in Python.
+
+  ------------------------------
+  1. Install Required Packages
+  ------------------------------
+
+pip install huggingface_hub ultralytics
+
+If you are using a fresh environment, you may also install:
+
+pip install -r requirements.txt
+
+  ----------------------------------
+  2. Import the Required Libraries
+  ----------------------------------
+
+from huggingface_hub import hf_hub_download
+from ultralytics import YOLO
+
+  -----------------------
+  3. Download the Model
+  -----------------------
+get those from website
+
+model_path = hf_hub_download( repo_id=“arnabdhar/YOLOv8-Face-Detection”,
+filename=“model.pt” )
+
+The first execution downloads the model from Hugging Face.
+
+Later executions reuse the cached copy automatically.
+after this you need to copy model frome this cache path to your path
+
+  -------------------
+  4. Load the Model
+  -------------------
+
+model = YOLO(model_path)
+
+  ------------------------------
+  5. Run Inference on an Image
+  ------------------------------
+
+import cv2
+
+image = cv2.imread(“image.jpg”)
+
+results = model(image)
+
+annotated = results[0].plot()
+
+cv2.imshow(“Result”, annotated) cv2.waitKey(0)
+
+  ----------------------------
+  6. Run Inference on Webcam
+  ----------------------------
+
+import cv2
+
+cap = cv2.VideoCapture(0)
+
+while True:
+
+    ret, frame = cap.read()
+
+    if not ret:
+        break
+
+    results = model(frame)
+
+    annotated = results[0].plot()
+
+    cv2.imshow("YOLO Face Detection", annotated)
+
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
+
+cap.release() cv2.destroyAllWindows()
+
+  -------------------------------
+  7. Where is the Model Stored?
+  -------------------------------
+
+On Windows, Hugging Face caches downloaded models in:
+
+C:<USERNAME>.cache
+
+Example:
+
+C:.cache–arnabdhar–YOLOv8-Face-Detection\52fa54977207fa4f021de949b515fb19dcab4488.pt
+
+  -----------------------------------
+  8. Load the Cached Model Directly
+  -----------------------------------
+
+from ultralytics import YOLO
+
+model = YOLO(
+r”C:.cache–arnabdhar–YOLOv8-Face-Detection\52fa54977207fa4f021de949b515fb19dcab4488.pt”
+)
+
+  -------------------------------
+  9. Download Once, Use Forever
+  -------------------------------
+
+The first run downloads the model.
+
+After that:
+
+-   No Internet is required.
+-   Hugging Face uses the cached model.
+-   You can also copy model.pt into your project.
+
+Example:
+
+project/ │ ├── models/ │ └── face_detection/ │ └── model.pt │ ├── src/
+└── main.py
+
+Then:
+
+model = YOLO(“models/face_detection/model.pt”)
+
+  ---------------------------------------
+  10. Useful hf_hub_download Parameters
+  ---------------------------------------
+
+hf_hub_download( repo_id=“arnabdhar/YOLOv8-Face-Detection”,
+filename=“model.pt”, cache_dir=“models” )
+
+repo_id -> Hugging Face repository filename -> File to download
+cache_dir -> Optional custom cache directory
+
+  -------------
+  11. Summary
+  -------------
+
+1.  Install packages.
+2.  Import hf_hub_download and YOLO.
+3.  Download the model.
+4.  Load it with YOLO().
+5.  Run inference.
+6.  The model is cached automatically.
+7.  Reuse the cached model or move it into your project.
